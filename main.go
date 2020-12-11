@@ -134,6 +134,10 @@ func RunCommand(name string, args ...string) (stdout string, stderr string, exit
 func createEnvs(v string)  {
 	gitUrl,_,_ := RunCommand("git","remote","get-url","origin")
 	packageName := strings.Split(strings.Split(gitUrl,"/")[1],".git")[0]
+	if strings.HasPrefix(gitUrl,"http") {
+		packageName = strings.Split(strings.Split(gitUrl,"/")[4],".git")[0]
+	}
+
 	fmt.Println("PACKAGE_NAME="+packageName)
 	fmt.Println("PACKAGE_VERSION="+v)
 	fmt.Println("GIT_URL="+gitUrl)
