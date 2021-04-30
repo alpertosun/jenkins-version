@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"os/exec"
+	"strings"
 	"syscall"
 )
 
@@ -31,6 +32,10 @@ func RunCommand(name string, args ...string) (stdout string, stderr string, exit
 	return
 }
 
-func (v Version) calculateCommits()  {
-	commitCount, _, _ := RunCommand("git", "rev-list",v.fullVersion + "..HEAD" , "--count")
+func (v Version) calculateCommits() {
+	// gets commit number with command: git rev-list "{{latestTag}}"..HEAD
+	commitCount, _, _ := RunCommand("git", "rev-list", v.fullVersion+"..HEAD", "--count")
+	// git command creates extra new line. it should be deleted.
+	commitCount = strings.Replace(commitCount, "\n", "", -1)
+
 }
