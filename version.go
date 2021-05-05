@@ -67,8 +67,7 @@ func findReleases()  Version {
 	}
 	if len(releaseBranch) == 0 && len(hotfixBranch) != 0 {
 		hotfix = getHighVersion(hotfixBranch)
-		return hotfix
-
+ 		return hotfix
 	} else if len(releaseBranch) != 0 && len(hotfixBranch) == 0 {
 		release = getHighVersion(releaseBranch)
 		return release
@@ -76,6 +75,6 @@ func findReleases()  Version {
 		log.Fatal("No release & hotfix branches found")
 		return Version{}
 	}
-
-
 }
+
+

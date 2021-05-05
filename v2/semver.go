@@ -159,3 +159,29 @@ func compare(v1, v2 string) (*Version, error) {
 
 	return returnVersion(resultMajor, resultMinor, resultPatch, resultBuild), nil
 }
+
+func getHighVersion(tags []string) *Version {
+	var highTag *Version
+	for i := 0; i < len(tags); i++ {
+		v1, err := CreateVersion(tags[i])
+		if err != nil {
+			continue
+		}
+		if i == 0 {
+			highTag = v1
+			continue
+		}
+		v2, err := CreateVersion(tags[i-1])
+		if err != nil {
+			continue
+		}
+		highTag, err = compare(v1.Str(), v2.Str())
+		if err != nil {
+			panic(err)
+		}
+	}
+	if highTag == nil {
+		highTag, _ = CreateVersion("0.1.0")
+	}
+	return highTag
+}
